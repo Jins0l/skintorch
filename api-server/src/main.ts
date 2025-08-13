@@ -54,7 +54,21 @@ async function bootstrap() {
   SwaggerModule.setup('api/docs', app, swaggerDocument, {
     swaggerOptions: {
       persistAuthorization: true,
+      // HTTP 환경에서 HTTPS 리소스 로딩 방지
+      url: '/api/docs-json',
+      validatorUrl: null,
     },
+    // 커스텀 설정으로 HTTP 강제
+    customSiteTitle: 'SkinTorch API Docs',
+    customCss: '.swagger-ui .topbar { display: none }',
+    // HTTP 리소스 경로 강제 설정
+    customJs: [
+      'http://34.22.87.94:3000/api/docs/swagger-ui-bundle.js',
+      'http://34.22.87.94:3000/api/docs/swagger-ui-standalone-preset.js'
+    ],
+    customCssUrl: [
+      'http://34.22.87.94:3000/api/docs/swagger-ui.css'
+    ],
   });
   const port = parseInt(config.get<string>('PORT', '3000'), 10);
   await app.listen(port);
